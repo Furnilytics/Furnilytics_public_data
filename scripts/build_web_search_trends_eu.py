@@ -197,7 +197,7 @@ def _basic_summary_checks(text: str, facts: Dict[str, Any]) -> Tuple[bool, List[
         reasons.append("Too long (>650 chars).")
 
     sentence_count = len([s for s in re.split(r"[.!?]+", t) if s.strip()])
-    if sentence_count < 2 or sentence_count > 8:
+    if sentence_count < 4 or sentence_count > 10:
         reasons.append(f"Unexpected sentence count ({sentence_count}).")
 
     if any(p in low for p in FORBIDDEN_PHRASES):
