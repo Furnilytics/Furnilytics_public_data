@@ -1,6 +1,6 @@
 {
   "id": "retail/online/web_search_trends_eu",
-  "generated_at": "2026-02-28T21:00:19.021973+00:00",
+  "generated_at": "2026-02-28T21:12:22.194395+00:00",
   "meta": {
     "title": "Furniture retail web search trend EU",
     "description": "Monthly Google Trends index for a basket of major furniture retailers across DE, FR, IT, ES and PL. Aggregated using 2025 core website visitation weights and indexed to 2018.",
@@ -33,7 +33,176 @@
       "avg_2023_plus": 94.5
     },
     "data_hash": "9c14a5ca06aa2225781ec5ce5ddf24b4f422a11c8283c539f66f712e40cb735e",
-    "trend_summary_error": "Failed validation after retries."
+    "trend_summary_error": "Failed validation after retries.",
+    "trend_summary_failure": {
+      "last_attempt": 6,
+      "last_text": "The furniture retail web search trend in the EU has experienced notable fluctuations since 2018, with a peak in November 2020 at an index value of 140.9, followed by a gradual decline that reached a trough of 75.3 in June 2025. Recently, the index stands at 106.7, suggesting a stabilization above the long-run baseline of 100, although average values from 2023 onward indicate a decrease to 94.5 compared to the higher averages of 116.6 during 2020-2021. Year-over-year metrics show a slight positive momentum of 3.0% year-to-date, while the 12-month change reflects a minor decline of 0.6%, indicating mixed trends in consumer interest over the longer term.",
+      "basic_reasons": [
+        "Too long (>650 chars).",
+        "Unexpected sentence count (10).",
+        "Did not reference YoY/YTD momentum metrics (prompt asked for it)."
+      ],
+      "judge_pass": true,
+      "judge_reasons": []
+    },
+    "trend_summary_debug": {
+      "attempts": [
+        {
+          "attempt": 1,
+          "text": "The furniture retail web search trend in the EU has experienced notable fluctuations since 2018, peaking in November 2020 at an index value of 140.9 before declining to a trough of 75.3 in June 2025. Currently, the index sits at 106.7, suggesting a stabilization above the long-run baseline of 100, but below the average levels observed in 2020-2021 (116.6) and the more recent average for 2023 and beyond (94.5). Recent momentum appears mixed, with year-over-year growth of 3.0% year-to-date and a slight decline of 0.6% over the past 12 months, indicating a potential shift in consumer interest.",
+          "basic_pass": false,
+          "basic_reasons": [
+            "Unexpected sentence count (10).",
+            "Did not reference YoY/YTD momentum metrics (prompt asked for it)."
+          ],
+          "judge": {
+            "pass": true,
+            "reasons": [],
+            "fixed_text": ""
+          }
+        },
+        {
+          "attempt": 2,
+          "text": "The furniture retail web search trend in the EU has experienced notable fluctuations since 2018, peaking in November 2020 at an index value of 140.9 before declining to a trough of 75.3 in June 2025. Currently, the index sits at 106.7, suggesting a stabilization above the long-run baseline of 100, albeit lower than the average observed during 2020-2021 (116.6). Recent momentum appears mixed, with a year-over-year increase of 3.0% and a slight decline of 0.6% over the past 12 months, indicating some variability in consumer interest.",
+          "basic_pass": false,
+          "basic_reasons": [
+            "Unexpected sentence count (9).",
+            "Did not reference YoY/YTD momentum metrics (prompt asked for it)."
+          ],
+          "judge": {
+            "pass": false,
+            "reasons": [
+              "The paragraph mentions a year-over-year increase of 3.0% but does not clarify that this is the year-to-date figure, which could lead to confusion.",
+              "The statement about a slight decline of 0.6% over the past 12 months is accurate but could be misinterpreted without context."
+            ],
+            "fixed_text": "The furniture retail web search trend in the EU has experienced notable fluctuations since 2018, peaking in November 2020 at an index value of 140.9 before declining to a trough of 75.3 in June 2025. Currently, the index sits at 106.7, suggesting a stabilization above the long-run baseline of 100, although it is lower than the average observed during 2020-2021 (116.6). Year-to-date, the index shows a year-over-year increase of 3.0%, while the past 12 months reflect a slight decline of 0.6%."
+          }
+        },
+        {
+          "attempt": "2.fixed",
+          "text": "The furniture retail web search trend in the EU has experienced notable fluctuations since 2018, peaking in November 2020 at an index value of 140.9 before declining to a trough of 75.3 in June 2025. Currently, the index sits at 106.7, suggesting a stabilization above the long-run baseline of 100, although it is lower than the average observed during 2020-2021 (116.6). Year-to-date, the index shows a year-over-year increase of 3.0%, while the past 12 months reflect a slight decline of 0.6%.",
+          "basic_pass": false,
+          "basic_reasons": [
+            "Unexpected sentence count (9).",
+            "Did not reference YoY/YTD momentum metrics (prompt asked for it)."
+          ],
+          "judge": {
+            "pass": true,
+            "reasons": [],
+            "fixed_text": ""
+          }
+        },
+        {
+          "attempt": 3,
+          "text": "The chart illustrates the monthly Google Trends index for major furniture retailers in the EU from January 2018 to January 2026, revealing distinct phases in consumer interest. A notable peak occurred in November 2020 at 140.9, followed by a gradual decline, reaching a trough of 75.3 in June 2025. Currently, the index sits at 106.7, suggesting a stabilization above the long-run baseline of 100 (indexed to 2018). Recent momentum appears mixed, with a year-over-year increase of 3.0% and a slight decline of 0.6% over the past 12 months, indicating fluctuating consumer interest in the furniture sector.",
+          "basic_pass": false,
+          "basic_reasons": [
+            "Unexpected sentence count (9).",
+            "Did not reference YoY/YTD momentum metrics (prompt asked for it)."
+          ],
+          "judge": {
+            "pass": false,
+            "reasons": [
+              "The paragraph mentions a 'gradual decline' after the peak, which is misleading as it does not accurately reflect the data trend leading to the trough.",
+              "The statement about 'recent momentum appears mixed' is vague and does not clearly reference the specific year-over-year or year-to-date measures.",
+              "The paragraph does not mention the average values for 2020-2021 and 2023+, which could provide additional context."
+            ],
+            "fixed_text": "The chart illustrates the monthly Google Trends index for major furniture retailers in the EU from January 2018 to January 2026, revealing distinct phases in consumer interest. A notable peak occurred in November 2020 at 140.9, followed by a trough of 75.3 in June 2025. Currently, the index sits at 106.7, with a year-over-year increase of 3.0%, indicating fluctuating consumer interest in the furniture sector."
+          }
+        },
+        {
+          "attempt": "3.fixed",
+          "text": "The chart illustrates the monthly Google Trends index for major furniture retailers in the EU from January 2018 to January 2026, revealing distinct phases in consumer interest. A notable peak occurred in November 2020 at 140.9, followed by a trough of 75.3 in June 2025. Currently, the index sits at 106.7, with a year-over-year increase of 3.0%, indicating fluctuating consumer interest in the furniture sector.",
+          "basic_pass": false,
+          "basic_reasons": [
+            "Unexpected sentence count (7).",
+            "Did not reference YoY/YTD momentum metrics (prompt asked for it)."
+          ],
+          "judge": {
+            "pass": true,
+            "reasons": [],
+            "fixed_text": ""
+          }
+        },
+        {
+          "attempt": 4,
+          "text": "The chart illustrates the monthly Google Trends index for major furniture retailers in the EU, revealing distinct phases since 2018. A notable peak occurred in November 2020, reaching an index value of 140.9, followed by a decline that saw the index drop to a trough of 75.3 in June 2025. Currently, the index sits at 106.7, suggesting a stabilization above the long-run baseline of 100, albeit with a recent year-over-year decline of 0.6%. Recent momentum appears mixed, with a year-to-date increase of 3.0% and a slight decline over the past 12 months, indicating fluctuations in consumer interest.",
+          "basic_pass": false,
+          "basic_reasons": [
+            "Unexpected sentence count (9).",
+            "Did not reference YoY/YTD momentum metrics (prompt asked for it)."
+          ],
+          "judge": {
+            "pass": false,
+            "reasons": [
+              "The paragraph mentions a year-over-year decline of 0.6%, which is accurate, but it does not clearly state the context of the recent momentum measures.",
+              "The phrase 'recent momentum appears mixed' is vague and does not align with the requirement for a neutral tone."
+            ],
+            "fixed_text": "The chart illustrates the monthly Google Trends index for major furniture retailers in the EU, revealing distinct phases since 2018. A notable peak occurred in November 2020, reaching an index value of 140.9, followed by a decline that saw the index drop to a trough of 75.3 in June 2025. Currently, the index sits at 106.7, with a year-to-date increase of 3.0% and a year-over-year decline of 0.6%."
+          }
+        },
+        {
+          "attempt": "4.fixed",
+          "text": "The chart illustrates the monthly Google Trends index for major furniture retailers in the EU, revealing distinct phases since 2018. A notable peak occurred in November 2020, reaching an index value of 140.9, followed by a decline that saw the index drop to a trough of 75.3 in June 2025. Currently, the index sits at 106.7, with a year-to-date increase of 3.0% and a year-over-year decline of 0.6%.",
+          "basic_pass": false,
+          "basic_reasons": [
+            "Unexpected sentence count (8).",
+            "Did not reference YoY/YTD momentum metrics (prompt asked for it)."
+          ],
+          "judge": {
+            "pass": true,
+            "reasons": [],
+            "fixed_text": ""
+          }
+        },
+        {
+          "attempt": 5,
+          "text": "The chart illustrates the monthly Google Trends index for major furniture retailers in the EU from January 2018 to January 2026. Following a notable peak in November 2020 at 140.9, the index has experienced fluctuations, with a recent trough in June 2025 at 75.3. Currently, the index stands at 106.7, suggesting a stabilization above the long-run baseline of 100 (indexed to 2018). Recent momentum appears mixed, with a year-over-year increase of 3.0% and a slight decline of 0.6% over the past 12 months, indicating varying consumer interest in furniture retail.",
+          "basic_pass": false,
+          "basic_reasons": [
+            "Unexpected sentence count (9).",
+            "Did not reference YoY/YTD momentum metrics (prompt asked for it)."
+          ],
+          "judge": {
+            "pass": false,
+            "reasons": [
+              "The paragraph states a year-over-year increase of 3.0% but does not clarify that this is the year-to-date figure, which could lead to confusion.",
+              "The mention of a slight decline of 0.6% over the past 12 months is accurate but should be presented more clearly in relation to the overall trend."
+            ],
+            "fixed_text": "The chart illustrates the monthly Google Trends index for major furniture retailers in the EU from January 2018 to January 2026. Following a notable peak in November 2020 at 140.9, the index has experienced fluctuations, with a recent trough in June 2025 at 75.3. Currently, the index stands at 106.7, with a year-to-date year-over-year increase of 3.0% and a decline of 0.6% over the past 12 months."
+          }
+        },
+        {
+          "attempt": "5.fixed",
+          "text": "The chart illustrates the monthly Google Trends index for major furniture retailers in the EU from January 2018 to January 2026. Following a notable peak in November 2020 at 140.9, the index has experienced fluctuations, with a recent trough in June 2025 at 75.3. Currently, the index stands at 106.7, with a year-to-date year-over-year increase of 3.0% and a decline of 0.6% over the past 12 months.",
+          "basic_pass": false,
+          "basic_reasons": [
+            "Unexpected sentence count (8).",
+            "Did not reference YoY/YTD momentum metrics (prompt asked for it)."
+          ],
+          "judge": {
+            "pass": true,
+            "reasons": [],
+            "fixed_text": ""
+          }
+        },
+        {
+          "attempt": 6,
+          "text": "The furniture retail web search trend in the EU has experienced notable fluctuations since 2018, with a peak in November 2020 at an index value of 140.9, followed by a gradual decline that reached a trough of 75.3 in June 2025. Recently, the index stands at 106.7, suggesting a stabilization above the long-run baseline of 100, although average values from 2023 onward indicate a decrease to 94.5 compared to the higher averages of 116.6 during 2020-2021. Year-over-year metrics show a slight positive momentum of 3.0% year-to-date, while the 12-month change reflects a minor decline of 0.6%, indicating mixed trends in consumer interest over the longer term.",
+          "basic_pass": false,
+          "basic_reasons": [
+            "Too long (>650 chars).",
+            "Unexpected sentence count (10).",
+            "Did not reference YoY/YTD momentum metrics (prompt asked for it)."
+          ],
+          "judge": {
+            "pass": true,
+            "reasons": [],
+            "fixed_text": ""
+          }
+        }
+      ]
+    }
   },
   "data": [
     {
