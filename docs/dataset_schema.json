@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-02-28T12:11:59.613616+00:00",
+  "generated_at": "2026-02-28T17:07:06.676165+00:00",
   "source": {
     "type": "api",
     "url": "https://furnilytics-api.fly.dev/metadata"
@@ -738,9 +738,9 @@
             {
               "title": "Furniture retail web search trend EU",
               "path": "retail/online/web_search_trends_eu",
-              "description": "Monthly Google Trends index for a basket of major furniture retailers across DE, FR, IT, ES, PL, GB. Aggregated using 2025 core website visitation weights and indexed to 2018.",
-              "source": "Google Trends (via pytrends), Web Search interest over time, resampled to monthly (MS) weighted to 2025 core website traffic",
-              "updated_at": "2026-02-27T21:43:22.350376Z",
+              "description": "Monthly Google Trends index for a basket of major furniture retailers across DE, FR, IT, ES and PL. Aggregated using 2025 core website visitation weights and indexed to 2018.",
+              "source": "Google Trends, web search interest over time, resampled to monthly (MS) weighted to 2025 core website traffic.",
+              "updated_at": "2026-02-28T16:57:24.914013Z",
               "visibility": "public",
               "columns": [
                 {
@@ -759,8 +759,8 @@
               "title": "Furniture retail web search trends countries",
               "path": "retail/online/web_search_trends_country",
               "description": "Monthly Google Trends index for a basket of major furniture retailers within each country (DE, FR, IT, ES, PL, GB). Within-country aggregation uses 2025 core website visitation weights and is indexed to 2018 per country.",
-              "source": "Google Trends (via pytrends), Web Search interest over time, resampled to monthly (MS) weighted to 2025 core website traffic",
-              "updated_at": "2026-02-27T21:43:22.350376Z",
+              "source": "Google Trends, web search interest over time, resampled to monthly (MS) weighted to 2025 core website traffic.",
+              "updated_at": "2026-02-28T16:57:24.914013Z",
               "visibility": "public",
               "columns": [
                 {
@@ -784,8 +784,8 @@
               "title": "Furniture retail web search trends retailers",
               "path": "retail/online/web_search_trends",
               "description": "Monthly Google Trends index for individual furniture retailer brands/webpages in EU6 (DE, FR, IT, ES, PL, GB). Indexed to 2018 per country + webpage",
-              "source": "Google Trends (via pytrends), Web Search interest over time, resampled to monthly (MS) weighted to 2025 core website traffic. Brand terms are mapped to retailer webpages.",
-              "updated_at": "2026-02-27T21:43:22.350376Z",
+              "source": "Google Trends, web search interest over time, resampled to monthly (MS) weighted to 2025 core website traffic. Brand terms are mapped to retailer webpages.",
+              "updated_at": "2026-02-28T16:57:24.914013Z",
               "visibility": "paid",
               "columns": [
                 {
