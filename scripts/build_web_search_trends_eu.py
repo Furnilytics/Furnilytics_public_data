@@ -197,7 +197,7 @@ def _basic_summary_checks(text: str, facts: Dict[str, Any]) -> Tuple[bool, List[
         reasons.append("Too long (>650 chars).")
 
     sentence_count = len([s for s in re.split(r"[.!?]+", t) if s.strip()])
-    if sentence_count < 2 or sentence_count > 5:
+    if sentence_count < 2 or sentence_count > 8:
         reasons.append(f"Unexpected sentence count ({sentence_count}).")
 
     if any(p in low for p in FORBIDDEN_PHRASES):
@@ -297,7 +297,7 @@ Candidate paragraph:
 Decide if the paragraph is relevant and faithful to the facts:
 - Must be descriptive only (no causal explanations).
 - Must not introduce numbers/dates that contradict the facts.
-- Should be 3–7 sentences, neutral tone.
+- Should be 3–8 sentences, neutral tone.
 - OPTIONAL: Should reference at least one of the provided momentum measures if they exist (YoY/YTD).
 
 
@@ -310,7 +310,7 @@ Return STRICT JSON ONLY (no markdown, no extra text) with this schema:
 
 Rules for fixed_text:
 - Use only the facts above.
-- 3-7 sentences, no bullets.
+- 3-8 sentences, no bullets.
 - No meta-AI talk.
 """.strip()
 
