@@ -1,6 +1,6 @@
 {
   "id": "retail/online/web_search_trends_eu",
-  "generated_at": "2026-02-28T17:08:50.339237+00:00",
+  "generated_at": "2026-02-28T20:53:44.424145+00:00",
   "meta": {
     "title": "Furniture retail web search trend EU",
     "description": "Monthly Google Trends index for a basket of major furniture retailers across DE, FR, IT, ES and PL. Aggregated using 2025 core website visitation weights and indexed to 2018.",
@@ -10,7 +10,26 @@
     "api": {
       "data_url": "https://furnilytics-api.fly.dev/data/retail/online/web_search_trends_eu",
       "metadata_url": "https://furnilytics-api.fly.dev/metadata"
-    }
+    },
+    "trend_facts": {
+      "n": 97,
+      "start": "2018-01-01",
+      "end": "2026-01-01",
+      "last": 106.7,
+      "peak": {
+        "date": "2020-11-01",
+        "value": 140.9
+      },
+      "trough": {
+        "date": "2025-06-01",
+        "value": 75.3
+      },
+      "yoy_pct": 3.0,
+      "avg_2020_2021": 116.6,
+      "avg_2023_plus": 94.5
+    },
+    "data_hash": "9c14a5ca06aa2225781ec5ce5ddf24b4f422a11c8283c539f66f712e40cb735e",
+    "trend_summary_error": "Failed validation after retries."
   },
   "data": [
     {
