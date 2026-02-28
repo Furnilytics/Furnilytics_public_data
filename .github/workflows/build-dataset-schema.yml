@@ -1,0 +1,42 @@
+name: Build dataset schema JSON
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 5 * * *" # daily 05:17 UTC (adjust later)
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install deps
+        run: pip install requests
+
+      # Retry wrapper: if your Fly machine is asleep sometimes, this avoids random fails.
+      - name: Build dataset_schema.json (with retries)
+        env:
+          API_URL: https://furnilytics-api.fly.dev/metadata
+          OUT_PATH: docs/dataset_schema.json
+        run: |
+          for i in 1 2 3 4 5; do
+            echo "Attempt $i..."
+            python scripts/build_dataset_schema.py && break
+            sleep 30
+          done
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add docs/dataset_schema.json
+          git commit -m "Update dataset_schema.json" || echo "No changes"
+          git push
