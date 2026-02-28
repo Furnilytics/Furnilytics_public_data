@@ -1,11 +1,8 @@
-
 name: Build EU web search trends JSON
 
 on:
   workflow_dispatch:
   schedule:
-    # Day after 2nd Monday → 2nd Tuesday of each month at 05:00 UTC  
-    # Run on Tuesdays where day-of-month is 9-15. one day after API refresh
     - cron: "0 5 9-15 * 2"
 
 permissions:
@@ -14,20 +11,31 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
       - name: Install deps
-        run: pip install requests
+        run: |
+          pip install requests
+          pip install openai   # <-- ADD THIS
 
       - name: Build web_search_trends_eu.json (with retries)
         env:
           API_BASE: https://furnilytics-api.fly.dev
           DATA_ID: retail/online/web_search_trends_eu
           OUT_PATH: docs/web_search_trends_eu.json
+
+          # ---- ADD THESE ----
+          ENABLE_AI_SUMMARY: "1"
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_MODEL: "gpt-4o-mini"
+          OPENAI_JUDGE_MODEL: "gpt-4o-mini"
+          AI_SUMMARY_MAX_ATTEMPTS: "3"
         run: |
           for i in 1 2 3 4 5; do
             echo "Attempt $i..."
