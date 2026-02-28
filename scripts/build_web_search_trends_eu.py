@@ -280,6 +280,7 @@ Rules:
 - No bullet points.
 - No mention of OpenAI, AI, LLM, or “model”.
 - Don’t invent causes; describe what’s visible.
+- Only return the sentences, nothing else.
 """.strip()
 
     resp = client.responses.create(
@@ -329,7 +330,7 @@ Candidate paragraph:
 Decide if the paragraph is relevant and faithful to the facts:
 - Must be descriptive only (no causal explanations).
 - Must not introduce numbers/dates that contradict the facts.
-- Should be 2–3 sentences, neutral tone.
+- Should be up to 5 sentences, neutral tone.
 
 Return STRICT JSON ONLY (no markdown, no extra text) with this schema:
 {{
@@ -340,7 +341,7 @@ Return STRICT JSON ONLY (no markdown, no extra text) with this schema:
 
 Rules for fixed_text:
 - Use only the facts above.
-- 2–3 sentences, no bullets.
+- maximum 5 sentences, no bullets.
 - No meta-AI talk.
 """.strip()
 
