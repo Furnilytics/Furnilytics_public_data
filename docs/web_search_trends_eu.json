@@ -1,6 +1,6 @@
 {
   "id": "retail/online/web_search_trends_eu",
-  "generated_at": "2026-02-28T21:29:24.940303+00:00",
+  "generated_at": "2026-02-28T21:33:16.862230+00:00",
   "meta": {
     "title": "Furniture retail web search trend EU",
     "description": "Monthly Google Trends index for a basket of major furniture retailers across DE, FR, IT, ES and PL. Aggregated using 2025 core website visitation weights and indexed to 2018.",
@@ -33,18 +33,8 @@
       "avg_2023_plus": 94.5
     },
     "data_hash": "9c14a5ca06aa2225781ec5ce5ddf24b4f422a11c8283c539f66f712e40cb735e",
-    "trend_summary_error": "Failed validation after retries.",
-    "trend_summary_failure": {
-      "last_attempt": 6,
-      "last_text": "The data on furniture retail web search trends in the EU reveals a notable peak in November 2020, reaching an index value of 140.9, followed by a decline that appears to have stabilized around the 94.5 mark in 2023. The latest index value of 106.7 sits above the long-run baseline of 100 (indexed to 2018), suggesting a recovery from previous lows. Recent momentum shows a year-over-year increase of 3.0% year-to-date, although longer-term trends indicate a slight decline of 0.6% over the past 12 months, with more modest gains of 2.6% and 1.7% over the last three and six months, respectively.",
-      "basic_reasons": [
-        "Unexpected sentence count (10)."
-      ],
-      "judge_pass": false,
-      "judge_reasons": [
-        "Judge did not return valid JSON."
-      ]
-    }
+    "trend_summary": "The chart reveals a notable peak in furniture retail web search trends in November 2020, reaching an index value of 140.9, followed by a gradual decline that culminated in a trough of 75.3 in June 2025. Since then, the trend appears to have stabilized, with the latest index value at 106.7, suggesting a recovery above the long-run baseline of 100 indexed to 2018. Recent momentum indicators show a year-over-year increase of 3.0% and a slight upward trend over the past three months at 2.6%, although the year-over-year change over the last 12 months indicates a marginal decline of 0.6%.",
+    "trend_summary_generated_at": "2026-02-28T21:33:21.103242+00:00"
   },
   "data": [
     {
