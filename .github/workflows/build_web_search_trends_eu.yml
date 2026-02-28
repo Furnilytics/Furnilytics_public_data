@@ -42,7 +42,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           OPENAI_MODEL: "gpt-4o-mini"
           OPENAI_JUDGE_MODEL: "gpt-4o-mini"
-          AI_SUMMARY_MAX_ATTEMPTS: "3"
+          AI_SUMMARY_MAX_ATTEMPTS: "6"
         run: |
           for i in 1 2 3 4 5; do
             echo "Attempt $i..."
