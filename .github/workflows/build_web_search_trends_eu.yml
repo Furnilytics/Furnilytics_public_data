@@ -43,7 +43,7 @@ jobs:
           OPENAI_MODEL: "gpt-4o-mini"
           OPENAI_JUDGE_MODEL: "gpt-4o-mini"
           AI_SUMMARY_MAX_ATTEMPTS: "6"
-          KEEP_AI_DEBUG: "1"   
+          KEEP_AI_DEBUG: "0"   
         run: |
           for i in 1 2 3 4 5; do
             echo "Attempt $i..."
