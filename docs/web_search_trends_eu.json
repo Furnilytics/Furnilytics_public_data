@@ -1,6 +1,6 @@
 {
   "id": "retail/online/web_search_trends_eu",
-  "generated_at": "2026-02-28T20:09:44.889183+00:00",
+  "generated_at": "2026-02-28T20:18:49.214925+00:00",
   "meta": {
     "title": "Furniture retail web search trend EU",
     "description": "Monthly Google Trends index for a basket of major furniture retailers across DE, FR, IT, ES and PL. Aggregated using 2025 core website visitation weights and indexed to 2018.",
@@ -28,7 +28,8 @@
       "avg_2020_2021": 116.6,
       "avg_2023_plus": 94.5
     },
-    "data_hash": "9c14a5ca06aa2225781ec5ce5ddf24b4f422a11c8283c539f66f712e40cb735e"
+    "data_hash": "9c14a5ca06aa2225781ec5ce5ddf24b4f422a11c8283c539f66f712e40cb735e",
+    "trend_summary_error": "Failed validation after retries."
   },
   "data": [
     {
