@@ -220,11 +220,6 @@ def _basic_summary_checks(text: str, facts: Dict[str, Any]) -> Tuple[bool, List[
     if not anchor_ok:
         reasons.append("No obvious anchor to baseline/timeframe (e.g., 2018/indexing/year).")
 
-    # Encourage use of at least one momentum metric if available (soft check)
-    if any(facts.get(k) is not None for k in ["yoy_3m_pct", "yoy_6m_pct", "yoy_12m_pct", "ytd_yoy_pct"]):
-        if not any(token in low for token in ["yoy", "year-on-year", "year over year", "ytd"]):
-            reasons.append("Did not reference YoY/YTD momentum metrics (prompt asked for it).")
-
     return (len(reasons) == 0), reasons
 
 
@@ -302,8 +297,9 @@ Candidate paragraph:
 Decide if the paragraph is relevant and faithful to the facts:
 - Must be descriptive only (no causal explanations).
 - Must not introduce numbers/dates that contradict the facts.
-- Should be 2–3 sentences, neutral tone.
-- Should reference at least one of the provided momentum measures if they exist (YoY/YTD).
+- Should be 3–7 sentences, neutral tone.
+- OPTIONAL: Should reference at least one of the provided momentum measures if they exist (YoY/YTD).
+
 
 Return STRICT JSON ONLY (no markdown, no extra text) with this schema:
 {{
@@ -314,7 +310,7 @@ Return STRICT JSON ONLY (no markdown, no extra text) with this schema:
 
 Rules for fixed_text:
 - Use only the facts above.
-- 2–3 sentences, no bullets.
+- 3-7 sentences, no bullets.
 - No meta-AI talk.
 """.strip()
 
