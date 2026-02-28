@@ -73,6 +73,8 @@ def main() -> None:
         subtopic = str(it.get("subtopic") or "general")
         title = str(it.get("title") or dataset_id)
         description = str(it.get("description") or "")
+        visibility = str(it.get("visibility") or "")
+        updated_at = str(it.get("updated_at") or "")
         source = _to_source_text(it.get("source"))
         columns = _normalize_columns(it.get("schema"))
 
@@ -86,6 +88,8 @@ def main() -> None:
                 "path": path,
                 "description": description,
                 "source": source,
+                "updated_at": updated_at,
+                "visibility": visibility,
                 "columns": columns,
             }
         )
