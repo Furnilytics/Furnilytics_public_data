@@ -24,6 +24,13 @@ jobs:
           pip install requests
           pip install openai   # <-- ADD THIS
 
+      - name: Debug - confirm script version
+        run: |
+          echo "=== First 40 lines ==="
+          sed -n '1,40p' scripts/build_web_search_trends_eu.py
+          echo "=== Look for new fields ==="
+          grep -n "trend_summary\|trend_facts\|data_hash\|ENABLE_AI_SUMMARY" -n scripts/build_web_search_trends_eu.py || true
+
       - name: Build web_search_trends_eu.json (with retries)
         env:
           API_BASE: https://furnilytics-api.fly.dev
