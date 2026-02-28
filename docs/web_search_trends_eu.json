@@ -1,6 +1,6 @@
 {
   "id": "retail/online/web_search_trends_eu",
-  "generated_at": "2026-02-28T21:55:54.346504+00:00",
+  "generated_at": "2026-02-28T21:58:18.861517+00:00",
   "meta": {
     "title": "Furniture retail web search trend EU",
     "description": "Monthly Google Trends index for a basket of major furniture retailers across DE, FR, IT, ES and PL. Aggregated using 2025 core website visitation weights and indexed to 2018.",
@@ -33,7 +33,8 @@
       "avg_2023_plus": 94.5
     },
     "data_hash": "9c14a5ca06aa2225781ec5ce5ddf24b4f422a11c8283c539f66f712e40cb735e",
-    "trend_summary_error": "ENABLE_AI_SUMMARY=1 but OPENAI_API_KEY is missing."
+    "trend_summary": "The furniture retail web search trend in the EU shows a notable peak in November 2020, reaching an index value of 140.9, followed by a gradual decline that culminated in a trough of 75.3 in June 2025. Since then, the trend appears to have stabilized, with the latest index value at 106.7, suggesting a return to levels above the long-run baseline of 100 (indexed to 2018). Recent momentum indicates a year-over-year increase of 3.0% and a slight uptick of 2.6% over the past three months, although the 12-month change shows a marginal decline of 0.6%, reflecting mixed performance in the longer term.",
+    "trend_summary_generated_at": "2026-02-28T21:58:25.068811+00:00"
   },
   "data": [
     {
