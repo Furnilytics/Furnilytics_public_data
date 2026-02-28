@@ -22,14 +22,10 @@ OUT_PATH = os.environ.get("OUT_PATH", "docs/web_search_trends_eu.json")
 DATA_URL = f"{API_BASE}/data/{DATA_ID}"
 META_URL = f"{API_BASE}/metadata"
 
-# AI toggles (safe-by-default)
-# - ENABLE_AI_SUMMARY=1 enables generation + validation
-# - OPENAI_API_KEY must be set when enabled
 ENABLE_AI_SUMMARY = os.environ.get("ENABLE_AI_SUMMARY", "0") == "1"
 AI_SUMMARY_MAX_ATTEMPTS = int(os.environ.get("AI_SUMMARY_MAX_ATTEMPTS", "3"))
 KEEP_AI_DEBUG = os.environ.get("KEEP_AI_DEBUG", "0") == "1"
 
-# Models (defaults are cheap+fast; override in env if you want)
 OPENAI_MODEL = os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
 OPENAI_JUDGE_MODEL = os.environ.get("OPENAI_JUDGE_MODEL", OPENAI_MODEL)
 
@@ -55,14 +51,21 @@ def _safe_float(x: Any) -> Optional[float]:
         return None
 
 
+def _data_fingerprint(rows: List[Dict[str, Any]]) -> str:
+    payload = json.dumps(rows, sort_keys=True, ensure_ascii=False).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
 def _compute_trend_facts(rows: List[Dict[str, Any]]) -> Dict[str, Any]:
     """
     rows: [{ "date": "YYYY-MM-DD", "value": <number> }, ...]
     Returns compact facts to describe the chart.
 
-    Notes:
-    - Series is monthly and seasonal → use YoY-style comparisons for 3/6/12m.
-    - "value" is an index (2018=100), so we compare averages over periods.
+    Seasonality-safe momentum metrics:
+    - yoy_3m_pct: avg(last 3 months) vs avg(same 3 months last year)
+    - yoy_6m_pct: avg(last 6 months) vs avg(same 6 months last year)
+    - yoy_12m_pct: avg(last 12 months) vs avg(prior 12 months)
+    - ytd_yoy_pct: avg(Jan..latest month) vs avg(Jan..same month last year)
     """
     clean: List[Tuple[str, float]] = []
     for r in rows:
@@ -83,55 +86,44 @@ def _compute_trend_facts(rows: List[Dict[str, Any]]) -> Dict[str, Any]:
 
     last_date, last_val = clean[-1]
 
-    # -------------------------------------------------------------------------
-    # Helpers
-    # -------------------------------------------------------------------------
     def _avg_last_n(n: int) -> Optional[float]:
         if len(clean) < n:
             return None
         xs = [v for _, v in clean[-n:]]
-        return sum(xs) / len(xs) if xs else None
+        return (sum(xs) / len(xs)) if xs else None
 
     def _avg_window(end_idx_inclusive: int, n: int) -> Optional[float]:
         start = end_idx_inclusive - (n - 1)
         if start < 0 or end_idx_inclusive >= len(clean):
             return None
         xs = [v for _, v in clean[start : end_idx_inclusive + 1]]
-        return sum(xs) / len(xs) if xs else None
+        return (sum(xs) / len(xs)) if xs else None
 
     def _pct_change(new: Optional[float], old: Optional[float]) -> Optional[float]:
         if new is None or old is None or old == 0:
             return None
         return (new / old - 1.0) * 100.0
 
-    # Year-on-year for latest point (single month)
+    # Single-month YoY
     yoy_pct = None
     if len(clean) >= 13:
         _, v_12m = clean[-13]
         yoy_pct = _pct_change(last_val, v_12m)
 
-    # -------------------------------------------------------------------------
-    # Seasonal-safe multi-month trends (YoY vs same months last year)
-    # -------------------------------------------------------------------------
-    # 3-month YoY: avg(last 3 months) vs avg(same 3 months previous year)
+    # 3/6/12-month YoY (seasonality-safe, using averages)
     avg_3m = _avg_last_n(3)
-    avg_3m_prev = _avg_window(len(clean) - 1 - 12, 3)  # end at (t-12)
+    avg_3m_prev = _avg_window(len(clean) - 1 - 12, 3)
     yoy_3m_pct = _pct_change(avg_3m, avg_3m_prev)
 
-    # 6-month YoY
     avg_6m = _avg_last_n(6)
     avg_6m_prev = _avg_window(len(clean) - 1 - 12, 6)
     yoy_6m_pct = _pct_change(avg_6m, avg_6m_prev)
 
-    # 12-month YoY (rolling year vs prior rolling year)
     avg_12m = _avg_last_n(12)
     avg_12m_prev = _avg_window(len(clean) - 1 - 12, 12)
     yoy_12m_pct = _pct_change(avg_12m, avg_12m_prev)
 
-    # -------------------------------------------------------------------------
-    # YTD YoY: Jan..latest month vs Jan..same month last year
-    # We assume dates are first-of-month "YYYY-MM-01"
-    # -------------------------------------------------------------------------
+    # YTD YoY (Jan..latest month vs last year Jan..same month)
     ytd_yoy_pct = None
     try:
         last_year = int(last_date[:4])
@@ -152,7 +144,6 @@ def _compute_trend_facts(rows: List[Dict[str, Any]]) -> Dict[str, Any]:
     except Exception:
         ytd_yoy_pct = None
 
-    # Long-run comparisons you already had
     def avg_in_range(start_ymd: str, end_ymd: str) -> Optional[float]:
         xs = [v for d, v in clean if start_ymd <= d <= end_ymd]
         return (sum(xs) / len(xs)) if xs else None
@@ -168,25 +159,15 @@ def _compute_trend_facts(rows: List[Dict[str, Any]]) -> Dict[str, Any]:
         "peak": {"date": dates[peak_i], "value": round(vals[peak_i], 1)},
         "trough": {"date": dates[trough_i], "value": round(vals[trough_i], 1)},
 
-        # Single-month YoY
         "yoy_pct": (round(yoy_pct, 1) if yoy_pct is not None else None),
-
-        # Seasonal-safe multi-month YoY trends (recommended for this chart)
         "yoy_3m_pct": (round(yoy_3m_pct, 1) if yoy_3m_pct is not None else None),
         "yoy_6m_pct": (round(yoy_6m_pct, 1) if yoy_6m_pct is not None else None),
         "yoy_12m_pct": (round(yoy_12m_pct, 1) if yoy_12m_pct is not None else None),
-
-        # YTD YoY (Jan..latest month vs last year Jan..same month)
         "ytd_yoy_pct": (round(ytd_yoy_pct, 1) if ytd_yoy_pct is not None else None),
 
         "avg_2020_2021": (round(avg_2020_2021, 1) if avg_2020_2021 is not None else None),
         "avg_2023_plus": (round(avg_2023_plus, 1) if avg_2023_plus is not None else None),
     }
-
-
-def _data_fingerprint(rows: List[Dict[str, Any]]) -> str:
-    payload = json.dumps(rows, sort_keys=True, ensure_ascii=False).encode("utf-8")
-    return hashlib.sha256(payload).hexdigest()
 
 
 # -----------------------------------------------------------------------------
@@ -202,7 +183,6 @@ FORBIDDEN_PHRASES = [
     "i don't have access",
     "model",
 ]
-
 CAUSALITY_WORDS = ["because", "due to", "caused by", "driven by", "as a result of"]
 
 
@@ -211,26 +191,21 @@ def _basic_summary_checks(text: str, facts: Dict[str, Any]) -> Tuple[bool, List[
     t = (text or "").strip()
     low = t.lower()
 
-    # Length sanity
     if len(t) < 60:
         reasons.append("Too short (<60 chars).")
-    if len(t) > 520:
-        reasons.append("Too long (>520 chars).")
+    if len(t) > 650:
+        reasons.append("Too long (>650 chars).")
 
-    # 2–5 sentences (rough heuristic)
     sentence_count = len([s for s in re.split(r"[.!?]+", t) if s.strip()])
     if sentence_count < 2 or sentence_count > 5:
         reasons.append(f"Unexpected sentence count ({sentence_count}).")
 
-    # No meta AI talk
     if any(p in low for p in FORBIDDEN_PHRASES):
         reasons.append("Contains forbidden/meta phrasing.")
 
-    # Avoid causal claims; keep descriptive
     if any(w in low for w in CAUSALITY_WORDS):
         reasons.append("Contains causal language (should be descriptive only).")
 
-    # Anchor check: mention 2018/indexing or any year present in facts
     peak_year = str(facts.get("peak", {}).get("date", ""))[:4]
     trough_year = str(facts.get("trough", {}).get("date", ""))[:4]
     end_year = str(facts.get("end", ""))[:4]
@@ -245,6 +220,11 @@ def _basic_summary_checks(text: str, facts: Dict[str, Any]) -> Tuple[bool, List[
     if not anchor_ok:
         reasons.append("No obvious anchor to baseline/timeframe (e.g., 2018/indexing/year).")
 
+    # Encourage use of at least one momentum metric if available (soft check)
+    if any(facts.get(k) is not None for k in ["yoy_3m_pct", "yoy_6m_pct", "yoy_12m_pct", "ytd_yoy_pct"]):
+        if not any(token in low for token in ["yoy", "year-on-year", "year over year", "ytd"]):
+            reasons.append("Did not reference YoY/YTD momentum metrics (prompt asked for it).")
+
     return (len(reasons) == 0), reasons
 
 
@@ -252,10 +232,6 @@ def _basic_summary_checks(text: str, facts: Dict[str, Any]) -> Tuple[bool, List[
 # OpenAI (generate + judge)
 # -----------------------------------------------------------------------------
 def _generate_trend_summary_openai(facts: Dict[str, Any], title: str, description: str) -> str:
-    """
-    Uses OpenAI Responses API via the official Python SDK.
-    Requires: pip install openai
-    """
     from openai import OpenAI  # lazy import
 
     client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
@@ -280,14 +256,13 @@ Rules:
 - No bullet points.
 - No mention of OpenAI, AI, LLM, or “model”.
 - Don’t invent causes; describe what’s visible.
-- Only return the sentences, nothing else.
 """.strip()
 
     resp = client.responses.create(
         model=OPENAI_MODEL,
         input=prompt,
         temperature=0.3,
-        max_output_tokens=140,
+        max_output_tokens=170,
     )
 
     text = getattr(resp, "output_text", None)
@@ -299,18 +274,15 @@ Rules:
         out_parts: List[str] = []
         for item in getattr(resp, "output", []) or []:
             for c in getattr(item, "content", []) or []:
-                t = getattr(c, "text", None)
-                if isinstance(t, str):
-                    out_parts.append(t)
+                tx = getattr(c, "text", None)
+                if isinstance(tx, str):
+                    out_parts.append(tx)
         return " ".join(out_parts).strip()
     except Exception:
         return ""
 
 
 def _judge_summary_openai(text: str, facts: Dict[str, Any], title: str, description: str) -> Dict[str, Any]:
-    """
-    Second-pass validator. MUST return JSON. If it doesn't, we fail closed.
-    """
     from openai import OpenAI  # lazy import
 
     client = OpenAI(api_key=os.environ["OPENAI_API_KEY"])
@@ -330,7 +302,8 @@ Candidate paragraph:
 Decide if the paragraph is relevant and faithful to the facts:
 - Must be descriptive only (no causal explanations).
 - Must not introduce numbers/dates that contradict the facts.
-- Should be up to 5 sentences, neutral tone.
+- Should be 2–3 sentences, neutral tone.
+- Should reference at least one of the provided momentum measures if they exist (YoY/YTD).
 
 Return STRICT JSON ONLY (no markdown, no extra text) with this schema:
 {{
@@ -341,7 +314,7 @@ Return STRICT JSON ONLY (no markdown, no extra text) with this schema:
 
 Rules for fixed_text:
 - Use only the facts above.
-- maximum 5 sentences, no bullets.
+- 2–3 sentences, no bullets.
 - No meta-AI talk.
 """.strip()
 
@@ -349,14 +322,13 @@ Rules for fixed_text:
         model=OPENAI_JUDGE_MODEL,
         input=judge_prompt,
         temperature=0.0,
-        max_output_tokens=220,
+        max_output_tokens=240,
     )
 
     raw = (getattr(resp, "output_text", "") or "").strip()
 
     try:
         obj = json.loads(raw)
-        # minimal shape checks
         if not isinstance(obj, dict) or "pass" not in obj:
             return {"pass": False, "reasons": ["Judge returned unexpected JSON shape."], "fixed_text": ""}
         if "reasons" not in obj or not isinstance(obj["reasons"], list):
@@ -416,24 +388,50 @@ def _generate_validated_summary(
     return "", debug
 
 
+def _last_failure_details(dbg: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Extract a compact explanation from the last attempt in dbg,
+    to make debugging failures easy without dumping everything.
+    """
+    attempts = dbg.get("attempts", [])
+    if not attempts:
+        return {"message": "No attempts recorded."}
+
+    last = attempts[-1]
+    judge = last.get("judge", {}) if isinstance(last, dict) else {}
+    out: Dict[str, Any] = {
+        "last_attempt": last.get("attempt"),
+        "last_text": last.get("text"),
+        "basic_reasons": last.get("basic_reasons", []),
+        "judge_pass": judge.get("pass"),
+        "judge_reasons": judge.get("reasons", []),
+    }
+
+    fixed = judge.get("fixed_text")
+    if isinstance(fixed, str) and fixed.strip():
+        out["judge_fixed_text"] = fixed.strip()
+
+    return out
+
+
 # -----------------------------------------------------------------------------
 # Main
 # -----------------------------------------------------------------------------
 def main() -> None:
-    # 1) Fetch data (list of {date,value})
+    # 1) Fetch data
     r = requests.get(DATA_URL, timeout=60)
     r.raise_for_status()
     data = r.json()
     if not isinstance(data, list):
         raise ValueError("Expected /data/{id} to return a JSON list")
 
-    # 2) Fetch metadata catalog and pick item for this dataset
+    # 2) Fetch metadata
     mr = requests.get(META_URL, timeout=60)
     mr.raise_for_status()
     meta_payload = mr.json()
     meta_item = _pick_metadata_item(meta_payload, DATA_ID) or {}
 
-    # 3) Create a single “evergreen payload” for the page
+    # 3) Build evergreen payload
     out: Dict[str, Any] = {
         "id": DATA_ID,
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -443,20 +441,17 @@ def main() -> None:
             "source": meta_item.get("source") or "",
             "visibility": meta_item.get("visibility") or "public",
             "updated_at": meta_item.get("updated_at") or "",
-            "api": {
-                "data_url": DATA_URL,
-                "metadata_url": META_URL,
-            },
+            "api": {"data_url": DATA_URL, "metadata_url": META_URL},
         },
-        "data": data,  # [{date, value}, ...]
+        "data": data,
     }
 
-    # 4) Add trend facts + content hash
+    # 4) Facts + hash (always present)
     facts = _compute_trend_facts(data)
     out["meta"]["trend_facts"] = facts
     out["meta"]["data_hash"] = _data_fingerprint(data)
 
-    # 5) Optional: Generate + validate AI summary (fail closed)
+    # 5) Optional AI summary
     if ENABLE_AI_SUMMARY:
         if not os.environ.get("OPENAI_API_KEY"):
             out["meta"]["trend_summary_error"] = "ENABLE_AI_SUMMARY=1 but OPENAI_API_KEY is missing."
@@ -474,19 +469,29 @@ def main() -> None:
                     out["meta"]["trend_summary_generated_at"] = datetime.now(timezone.utc).isoformat()
                 else:
                     out["meta"]["trend_summary_error"] = "Failed validation after retries."
+                    out["meta"]["trend_summary_failure"] = _last_failure_details(dbg)
+
                     if KEEP_AI_DEBUG:
                         out["meta"]["trend_summary_debug"] = dbg
             except Exception as e:
                 out["meta"]["trend_summary_error"] = str(e)
 
     # 6) Write output JSON
-    os.makedirs(os.path.dirname(OUT_PATH), exist_ok=True)
+    out_dir = os.path.dirname(OUT_PATH)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=2)
 
     print(f"Wrote {OUT_PATH} with {len(data)} rows.")
     if ENABLE_AI_SUMMARY:
-        print("AI summary:", "OK" if out["meta"].get("trend_summary") else "NOT PUBLISHED (failed/disabled)")
+        if out["meta"].get("trend_summary"):
+            print("AI summary: OK")
+        else:
+            print("AI summary: NOT PUBLISHED (failed/disabled)")
+            failure = out["meta"].get("trend_summary_failure")
+            if failure:
+                print("AI summary failure details:", json.dumps(failure, ensure_ascii=False))
 
 
 if __name__ == "__main__":
