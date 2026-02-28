@@ -59,6 +59,10 @@ def _compute_trend_facts(rows: List[Dict[str, Any]]) -> Dict[str, Any]:
     """
     rows: [{ "date": "YYYY-MM-DD", "value": <number> }, ...]
     Returns compact facts to describe the chart.
+
+    Notes:
+    - Series is monthly and seasonal → use YoY-style comparisons for 3/6/12m.
+    - "value" is an index (2018=100), so we compare averages over periods.
     """
     clean: List[Tuple[str, float]] = []
     for r in rows:
@@ -78,12 +82,77 @@ def _compute_trend_facts(rows: List[Dict[str, Any]]) -> Dict[str, Any]:
     trough_i = min(range(len(vals)), key=lambda i: vals[i])
 
     last_date, last_val = clean[-1]
-    yoy = None
+
+    # -------------------------------------------------------------------------
+    # Helpers
+    # -------------------------------------------------------------------------
+    def _avg_last_n(n: int) -> Optional[float]:
+        if len(clean) < n:
+            return None
+        xs = [v for _, v in clean[-n:]]
+        return sum(xs) / len(xs) if xs else None
+
+    def _avg_window(end_idx_inclusive: int, n: int) -> Optional[float]:
+        start = end_idx_inclusive - (n - 1)
+        if start < 0 or end_idx_inclusive >= len(clean):
+            return None
+        xs = [v for _, v in clean[start : end_idx_inclusive + 1]]
+        return sum(xs) / len(xs) if xs else None
+
+    def _pct_change(new: Optional[float], old: Optional[float]) -> Optional[float]:
+        if new is None or old is None or old == 0:
+            return None
+        return (new / old - 1.0) * 100.0
+
+    # Year-on-year for latest point (single month)
+    yoy_pct = None
     if len(clean) >= 13:
         _, v_12m = clean[-13]
-        if v_12m != 0:
-            yoy = (last_val / v_12m - 1.0) * 100.0
+        yoy_pct = _pct_change(last_val, v_12m)
 
+    # -------------------------------------------------------------------------
+    # Seasonal-safe multi-month trends (YoY vs same months last year)
+    # -------------------------------------------------------------------------
+    # 3-month YoY: avg(last 3 months) vs avg(same 3 months previous year)
+    avg_3m = _avg_last_n(3)
+    avg_3m_prev = _avg_window(len(clean) - 1 - 12, 3)  # end at (t-12)
+    yoy_3m_pct = _pct_change(avg_3m, avg_3m_prev)
+
+    # 6-month YoY
+    avg_6m = _avg_last_n(6)
+    avg_6m_prev = _avg_window(len(clean) - 1 - 12, 6)
+    yoy_6m_pct = _pct_change(avg_6m, avg_6m_prev)
+
+    # 12-month YoY (rolling year vs prior rolling year)
+    avg_12m = _avg_last_n(12)
+    avg_12m_prev = _avg_window(len(clean) - 1 - 12, 12)
+    yoy_12m_pct = _pct_change(avg_12m, avg_12m_prev)
+
+    # -------------------------------------------------------------------------
+    # YTD YoY: Jan..latest month vs Jan..same month last year
+    # We assume dates are first-of-month "YYYY-MM-01"
+    # -------------------------------------------------------------------------
+    ytd_yoy_pct = None
+    try:
+        last_year = int(last_date[:4])
+        last_month = int(last_date[5:7])
+
+        def _is_in_ytd(d: str, year: int, month_max: int) -> bool:
+            if not isinstance(d, str) or len(d) < 7:
+                return False
+            y = int(d[:4])
+            m = int(d[5:7])
+            return (y == year) and (1 <= m <= month_max)
+
+        ytd_curr = [v for d, v in clean if _is_in_ytd(d, last_year, last_month)]
+        ytd_prev = [v for d, v in clean if _is_in_ytd(d, last_year - 1, last_month)]
+
+        if ytd_curr and ytd_prev:
+            ytd_yoy_pct = _pct_change(sum(ytd_curr) / len(ytd_curr), sum(ytd_prev) / len(ytd_prev))
+    except Exception:
+        ytd_yoy_pct = None
+
+    # Long-run comparisons you already had
     def avg_in_range(start_ymd: str, end_ymd: str) -> Optional[float]:
         xs = [v for d, v in clean if start_ymd <= d <= end_ymd]
         return (sum(xs) / len(xs)) if xs else None
@@ -98,7 +167,18 @@ def _compute_trend_facts(rows: List[Dict[str, Any]]) -> Dict[str, Any]:
         "last": round(last_val, 1),
         "peak": {"date": dates[peak_i], "value": round(vals[peak_i], 1)},
         "trough": {"date": dates[trough_i], "value": round(vals[trough_i], 1)},
-        "yoy_pct": (round(yoy, 1) if yoy is not None else None),
+
+        # Single-month YoY
+        "yoy_pct": (round(yoy_pct, 1) if yoy_pct is not None else None),
+
+        # Seasonal-safe multi-month YoY trends (recommended for this chart)
+        "yoy_3m_pct": (round(yoy_3m_pct, 1) if yoy_3m_pct is not None else None),
+        "yoy_6m_pct": (round(yoy_6m_pct, 1) if yoy_6m_pct is not None else None),
+        "yoy_12m_pct": (round(yoy_12m_pct, 1) if yoy_12m_pct is not None else None),
+
+        # YTD YoY (Jan..latest month vs last year Jan..same month)
+        "ytd_yoy_pct": (round(ytd_yoy_pct, 1) if ytd_yoy_pct is not None else None),
+
         "avg_2020_2021": (round(avg_2020_2021, 1) if avg_2020_2021 is not None else None),
         "avg_2023_plus": (round(avg_2023_plus, 1) if avg_2023_plus is not None else None),
     }
@@ -193,6 +273,7 @@ Write 2–3 sentences describing:
 - the main phases over time (spikes, declines, stabilization),
 - any clear seasonality (only if evident; be cautious),
 - where the latest level sits vs the long-run baseline (indexed to 2018=100).
+- If yoy_3m_pct / yoy_6m_pct / yoy_12m_pct / ytd_yoy_pct are available, briefly summarize recent momentum using those measures (avoid MoM).
 
 Rules:
 - Neutral, analytical tone. Use cautious language ("appears", "suggests", "roughly").
