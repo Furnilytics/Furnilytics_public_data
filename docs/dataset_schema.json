@@ -1,4 +1,760 @@
 {
-  "generated_at": "init",
-  "topics": []
+  "generated_at": "2026-02-28T12:07:34.151693+00:00",
+  "source": {
+    "type": "api",
+    "url": "https://furnilytics-api.fly.dev/metadata"
+  },
+  "topics": [
+    {
+      "name": "Macroeconomics",
+      "subtopics": [
+        {
+          "name": "Consumer price index",
+          "tables": [
+            {
+              "title": "CPI energy EU",
+              "path": "macro_economics/prices/eu_hicp_energy",
+              "description": "Monthly HICP index (100=2025) for energy, by country and aggregate.",
+              "source": "Eurostat table EI_CPHI_M indicator CP-HIE monthly not season adjusted",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "First date of month"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Country or aggregate"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "HICP index (100=2025)"
+                }
+              ]
+            },
+            {
+              "title": "CPI furnishings EU",
+              "path": "macro_economics/prices/eu_hicp_furnishings",
+              "description": "Monthly HICP index (100=2025) for furnishings, household equipment and maintenance, by country and aggregate.",
+              "source": "Eurostat table EI_CPHI_M indicator CP-HI05 monthly not season adjusted",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "First date of month"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Country or aggregate"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "HICP index (100=2025)"
+                }
+              ]
+            },
+            {
+              "title": "CPI industrial goods EU",
+              "path": "macro_economics/prices/eu_hicp_industrial_goods",
+              "description": "Monthly HICP index for industrial goods, by country and aggregate.",
+              "source": "Eurostat table EI_CPHI_M indicator CP-HIIG monthly not season adjusted",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "First date of month"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Country or aggregate"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "HICP index (100=2025)"
+                }
+              ]
+            },
+            {
+              "title": "CPI total goods EU",
+              "path": "macro_economics/prices/eu_hicp_total_goods",
+              "description": "Monthly HICP index for total goods, by country and aggregate. ",
+              "source": "Eurostat table EI_CPHI_M indicator CP-HIG monthly not season adjusted",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "First date of month"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Country or aggregate"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "HICP index (100=2025)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Consumer sentiment",
+          "tables": [
+            {
+              "title": "Consumer sentiment EU",
+              "path": "macro_economics/consumer/eu_consumer_sentiment",
+              "description": "Monthly consumer confidence indicator (balance) by country and aggregate.",
+              "source": "Eurostat table EI_BSCO_M indicator BS-CSMCI monthly not season adjusted",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "First date of month"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Country or aggregate"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "Balance (pp)"
+                }
+              ]
+            },
+            {
+              "title": "Household financial situation EU",
+              "path": "macro_economics/consumer/eu_financial_situation_household",
+              "description": "Monthly balance indicator: financial situation of household, by country and aggregate.",
+              "source": "Eurostat table EI_BSCO_M indicator BS-SFSH monthly not season adjusted",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "First date of month"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Country or aggregate"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "Balance (pp)"
+                }
+              ]
+            },
+            {
+              "title": "Major purchases sentiment EU",
+              "path": "macro_economics/consumer/eu_major_purchases",
+              "description": "Monthly balance indicator: current economic situation for major purchases, by country and aggregate.",
+              "source": "Eurostat table EI_BSCO_M indicator BS-MP-PR not season adjusted.",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "First date of month"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Country or aggregate"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "Balance (pp)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Industrial price index",
+          "tables": [
+            {
+              "title": "IPI furniture EU",
+              "path": "macro_economics/production/eu_ipi_furniture",
+              "description": "Monthly industrial production index for furniture manufacturing (NACE C31).",
+              "source": "Eurostat table STS_INPR_M indicator PRD, NACE code C31.",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "First date of month"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Country or aggregate"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "Industrial production index (100=2021)"
+                }
+              ]
+            },
+            {
+              "title": "IPI sawmilling EU",
+              "path": "macro_economics/production/eu_ipi_sawmilling",
+              "description": "Monthly industrial production index for sawmilling and planing of wood (NACE C16.1).",
+              "source": "Eurostat table STS_INPR_M indicator PRD, NACE code C161.",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "First date of month"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Country or aggregate"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "Industrial production index (100=2021)"
+                }
+              ]
+            },
+            {
+              "title": "IPI wood-based panels EU",
+              "path": "macro_economics/production/eu_ipi_woodbased_panels",
+              "description": "Monthly industrial production index for manufacture of wood-based panels and veneer sheets (NACE C16.2.1).",
+              "source": "Eurostat table STS_INPR_M indicator PRD, NACE code C1621.",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "First date of month"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Country or aggregate"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "Industrial production index (100=2021)"
+                }
+              ]
+            },
+            {
+              "title": "Industrial production index furniture turnover",
+              "path": "macro_economics/turnover/eu_turnover_furniture",
+              "description": "Monthly turnover index for furniture manufacturing (NACE C31). Index reflects value of sales (current prices).",
+              "source": "Eurostat table STS_INTV_M indicator NETTUR calendar adjusted for NACE codes C31.",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "First date of month"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Country or aggregate"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "Turnover index (100=2021)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Labour costs",
+          "tables": [
+            {
+              "title": "Labour cost index industry EU",
+              "path": "macro_economics/labour/eu_labour_cost_industry",
+              "description": "Quarterly labour cost index for industry excluding construction (NACE B–E).",
+              "source": "Eurostat table lc_lci_r2_q labour cost structure D1_D4_MD5_XB, NACE code B-E.",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "Quarter-end date"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Country or aggregate"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "Labour cost index (100=2020)"
+                }
+              ]
+            },
+            {
+              "title": "Labour cost index manufacturing EU",
+              "path": "macro_economics/labour/eu_labour_cost_manufacturing",
+              "description": "Quarterly labour cost index for manufacturing (NACE C).",
+              "source": "Eurostat table lc_lci_r2_q labour cost structure D1_D4_MD5_XB, NACE code C.",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "Quarter-end date"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Country or aggregate"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "Labour cost index (100=2020)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Producer price index",
+          "tables": [
+            {
+              "title": "PPI furniture EU",
+              "path": "macro_economics/prices/eu_ppi_furniture",
+              "description": "Monthly producer price index for furniture manufacturing (NACE C31).",
+              "source": "Eurostat table STS_INPP_M not season adjusted, NACE code C31.",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "First date of month"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Country or aggregate"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "PPI (100=2021)"
+                }
+              ]
+            },
+            {
+              "title": "PPI furniture EU (domestic market)",
+              "path": "macro_economics/prices/eu_ppi_furniture_domestic",
+              "description": "Monthly producer price index for furniture manufacturing (NACE C31), domestic market.",
+              "source": "Eurostat table STS_INPPD_M not season adjusted, NACE code C31.",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "First date of month"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Country or aggregate"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "PPI (100=2021)"
+                }
+              ]
+            },
+            {
+              "title": "PPI furniture US",
+              "path": "macro_economics/prices/us_ppi_furniture",
+              "description": "US Producer Price Index (PPI) for Furniture and Related Product Manufacturing (FRED series PCU337337). Monthly index values.",
+              "source": "Federal Reserve Bank of St. Louis (FRED) table PCU337337, reindexed to 2021",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "Observation date"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "PPI index value"
+                }
+              ]
+            },
+            {
+              "title": "PPI sawmilling EU",
+              "path": "macro_economics/prices/eu_ppi_sawmilling",
+              "description": "Monthly producer price index for sawmilling and planing of wood (NACE C16.1).",
+              "source": "Eurostat table STS_INPPD_M not season adjusted, NACE code C161.",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "First date of month"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Country or aggregate"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "PPI (100=2021)"
+                }
+              ]
+            },
+            {
+              "title": "PPI wood products EU",
+              "path": "macro_economics/prices/eu_ppi_wood_products",
+              "description": "Monthly producer price index for manufacture of wood and of products of wood and cork (except furniture) (NACE C16).",
+              "source": "Eurostat table STS_INPPD_M not season adjusted, NACE code C16.",
+              "columns": []
+            },
+            {
+              "title": "PPI wood-based panels EU",
+              "path": "macro_economics/prices/eu_ppi_woodbased_panels",
+              "description": "Monthly producer price index for manufacture of wood-based panels and veneer sheets (NACE C16.2.1).",
+              "source": "Eurostat table STS_INPPD_M not season adjusted, NACE code C1621.",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "First date of month"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Country or aggregate"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "PPI (unit=I21)"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Structural business statistics",
+          "tables": [
+            {
+              "title": "Employees EU",
+              "path": "macro_economics/structure/eu_sbs_employees",
+              "description": "Annual Structural Business Statistics: number of employees for selected industries (C31 furniture, C16.2.1 wood-based panels).",
+              "source": "Eurostat tables combined sbs_ovw_act and sbs_na_ind_r2 indicator 'Employees - number' for NACE codes C31 and C1621.",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "Year-end date (YYYY-12-31)"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Country or aggregate"
+                },
+                {
+                  "name": "industry",
+                  "type": "string",
+                  "description": "Industry (NACE)"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "Employees (number)"
+                }
+              ]
+            },
+            {
+              "title": "Enterprises EU",
+              "path": "macro_economics/structure/eu_sbs_enterprises",
+              "description": "Annual Structural Business Statistics: number of enterprises for selected industries (C31 furniture, C16.2.1 wood-based panels).",
+              "source": "Eurostat tables combined sbs_ovw_act and sbs_na_ind_r2 indicator 'Enterprises - number' for NACE codes C31 and C1621.",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "Year-end date (YYYY-12-31)"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Country or aggregate"
+                },
+                {
+                  "name": "industry",
+                  "type": "string",
+                  "description": "Industry (NACE)"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "Enterprises (number)"
+                }
+              ]
+            },
+            {
+              "title": "Labour cost per employee EU",
+              "path": "macro_economics/structure/eu_sbs_labour_cost_per_fte",
+              "description": "Annual Structural Business Statistics: labour cost per employee (FTE), thousand euro, for selected industries (C31 furniture, C16.2.1 wood-based panels).",
+              "source": "Eurostat tables combined sbs_ovw_act and sbs_na_ind_r2 indicator 'Labour cost per employee FTE - thousand euro' for NACE codes C31 and C1621.",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "Year-end date (YYYY-12-31)"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Country or aggregate"
+                },
+                {
+                  "name": "industry",
+                  "type": "string",
+                  "description": "Industry (NACE)"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "Labour cost per employee FTE (thousand euro)"
+                }
+              ]
+            },
+            {
+              "title": "Net turnover EU",
+              "path": "macro_economics/structure/eu_sbs_turnover",
+              "description": "Annual Structural Business Statistics: net turnover (million euro) for selected industries (C31 furniture, C16.2.1 wood-based panels).",
+              "source": "Eurostat tables combined sbs_ovw_act and sbs_na_ind_r2 indicator 'Net turnover - million euro' for NACE codes C31 and C1621.",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "Year-end date (YYYY-12-31)"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Country or aggregate"
+                },
+                {
+                  "name": "industry",
+                  "type": "string",
+                  "description": "Industry (NACE)"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "Net turnover (million euro)"
+                }
+              ]
+            },
+            {
+              "title": "Production value EU",
+              "path": "macro_economics/structure/eu_sbs_production_value",
+              "description": "Annual Structural Business Statistics value of output value (million euro) for selected industries (C31 furniture, C16.2.1 wood-based panels).",
+              "source": "Eurostat tables combined sbs_ovw_act and sbs_na_ind_r2 indicator 'Value of output - million euro' for NACE codes C31 and C1621.",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "Year-end date (YYYY-12-31)"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Country or aggregate"
+                },
+                {
+                  "name": "industry",
+                  "type": "string",
+                  "description": "Industry (NACE)"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "Production value (million euro)"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Other",
+      "subtopics": [
+        {
+          "name": "Machinery",
+          "tables": [
+            {
+              "title": "EUMABOIS machinery exports to Asia",
+              "path": "other/machinery/eumabois_export_asia",
+              "description": "Monthly exports of woodworking machinery to Asia (UN M49 region 142), with partner sub-region (Central/Eastern/South Eastern/Southern/Western Asia). Based on the EUMABOIS 2020 methodology (standardized woodworking-machinery HS code basket; Türkiye included). Trade data from UN Comtrade, values are nominal USD and net weight in kg. Products include HS6 codes 846692, 846591, 846510, 846599, 847930, 846595, 846594, 846592, 846596, 846593 and 846520.",
+              "source": "UN Comtrade, regions according to UN M49",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "Month (YYYY-MM-01 as date)"
+                },
+                {
+                  "name": "export_country",
+                  "type": "string",
+                  "description": "Reporter ISO2"
+                },
+                {
+                  "name": "import_country",
+                  "type": "string",
+                  "description": "Partner ISO2"
+                },
+                {
+                  "name": "region",
+                  "type": "string",
+                  "description": "Asia sub-region (UN M49 grouping)"
+                },
+                {
+                  "name": "net_weight",
+                  "type": "float",
+                  "description": "Net weight (kg)"
+                },
+                {
+                  "name": "trade_value",
+                  "type": "float",
+                  "description": "Trade value (nominal USD)"
+                }
+              ]
+            },
+            {
+              "title": "EUMABOIS machinery exports to NA",
+              "path": "other/machinery/eumabois_export_na",
+              "description": "Monthly exports of woodworking machinery to North America (US, Canada, Mexico). Based on the EUMABOIS 2020 methodology (standardized woodworking-machinery HS code basket; Türkiye included). Trade data from UN Comtrade, values are nominal USD and net weight in kg. Products include HS6 codes 846692, 846591, 846510, 846599, 847930, 846595, 846594, 846592, 846596, 846593 and 846520.",
+              "source": "UN Comtrade, regions according to UN M49",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "Month (YYYY-MM-01 as date)"
+                },
+                {
+                  "name": "export_country",
+                  "type": "string",
+                  "description": "Reporter ISO2"
+                },
+                {
+                  "name": "import_country",
+                  "type": "string",
+                  "description": "Partner ISO2 (US/CA/MX)"
+                },
+                {
+                  "name": "net_weight",
+                  "type": "float",
+                  "description": "Net weight (kg)"
+                },
+                {
+                  "name": "trade_value",
+                  "type": "float",
+                  "description": "Trade value (nominal USD)"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Retail",
+      "subtopics": [
+        {
+          "name": "Online",
+          "tables": [
+            {
+              "title": "Furniture retail web search trend EU",
+              "path": "retail/online/web_search_trends_eu",
+              "description": "Monthly Google Trends index for a basket of major furniture retailers across DE, FR, IT, ES, PL, GB. Aggregated using 2025 core website visitation weights and indexed to 2018.",
+              "source": "Google Trends (via pytrends), Web Search interest over time, resampled to monthly (MS) weighted to 2025 core website traffic",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "Month start date (YYYY-MM-01)"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "EU6 weighted search trend index (2018=100)"
+                }
+              ]
+            },
+            {
+              "title": "Furniture retail web search trends countries",
+              "path": "retail/online/web_search_trends_country",
+              "description": "Monthly Google Trends index for a basket of major furniture retailers within each country (DE, FR, IT, ES, PL, GB). Within-country aggregation uses 2025 core website visitation weights and is indexed to 2018 per country.",
+              "source": "Google Trends (via pytrends), Web Search interest over time, resampled to monthly (MS) weighted to 2025 core website traffic",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "Month start date (YYYY-MM-01)"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Two-letter country code (lowercase)"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "Country weighted search trend index (2018=100)"
+                }
+              ]
+            },
+            {
+              "title": "Furniture retail web search trends retailers",
+              "path": "retail/online/web_search_trends",
+              "description": "Monthly Google Trends index for individual furniture retailer brands/webpages in EU6 (DE, FR, IT, ES, PL, GB). Indexed to 2018 per country + webpage",
+              "source": "Google Trends (via pytrends), Web Search interest over time, resampled to monthly (MS) weighted to 2025 core website traffic. Brand terms are mapped to retailer webpages.",
+              "columns": [
+                {
+                  "name": "date",
+                  "type": "date",
+                  "description": "Month start date (YYYY-MM-01)"
+                },
+                {
+                  "name": "country",
+                  "type": "string",
+                  "description": "Two-letter country code (lowercase)"
+                },
+                {
+                  "name": "webpage",
+                  "type": "string",
+                  "description": "Retailer website identifier"
+                },
+                {
+                  "name": "value",
+                  "type": "float",
+                  "description": "Webpage search trend index (2018=100)"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }
